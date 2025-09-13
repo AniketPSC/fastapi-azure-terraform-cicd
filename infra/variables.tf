@@ -1,7 +1,7 @@
 variable "prefix" {
   type        = string
   description = "Prefix for resource names"
-  default     = "fastapitodoaniket"
+  default     = "fastapitodoaniket1"
 }
 
 variable "location" {

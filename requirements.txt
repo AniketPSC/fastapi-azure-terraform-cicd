@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+SQLAlchemy
+pydantic
+pytest
+httpx
+python-dotenv
+azure-identity
+azure-keyvault-secrets

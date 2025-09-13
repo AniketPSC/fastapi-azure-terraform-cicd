@@ -20,7 +20,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$GITHUB_WORKSPACE" >> $GITHUB_ENV
 
@@ -48,8 +48,8 @@ jobs:
           az webapp config container set \
             --name ${{ secrets.WEBAPP_NAME }} \
             --resource-group ${{ secrets.RG_NAME }} \
-            --docker-custom-image-name $IMAGE \
-            --docker-registry-server-url https://${{ secrets.ACR_LOGIN_SERVER }}
+            --container-image-name $IMAGE \
+            --container-registry-url https://${{ secrets.ACR_LOGIN_SERVER }}
 
       - name: Restart the Web App
         run: |

@@ -49,6 +49,8 @@ jobs:
             --name ${{ secrets.WEBAPP_NAME }} \
             --resource-group ${{ secrets.RG_NAME }} \
             --container-image-name $IMAGE \
+            --container-registry-username ${{ secrets.ACR_USERNAME }} \
+            --container-registry-password ${{ secrets.ACR_PASSWORD }}  \
             --container-registry-url https://${{ secrets.ACR_LOGIN_SERVER }}
 
       - name: Restart the Web App

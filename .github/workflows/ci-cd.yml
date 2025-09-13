@@ -1,0 +1,53 @@
+name: CI / CD - FastAPI -> Azure
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Azure Login (service principal)
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: ACR login (via az)
+        run: |
+          az acr login --name ${{ secrets.ACR_NAME }}
+
+      - name: Build and push Docker image to ACR
+        run: |
+          IMAGE=${{ secrets.ACR_LOGIN_SERVER }}/fastapi-todo:${{ github.sha }}
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Configure Web App to use new container image
+        run: |
+          az webapp config container set \
+            --name ${{ secrets.WEBAPP_NAME }} \
+            --resource-group ${{ secrets.RG_NAME }} \
+            --docker-custom-image-name $IMAGE \
+            --docker-registry-server-url https://${{ secrets.ACR_LOGIN_SERVER }}
+
+      - name: Restart the Web App
+        run: |
+          az webapp restart --name ${{ secrets.WEBAPP_NAME }} --resource-group ${{ secrets.RG_NAME }}

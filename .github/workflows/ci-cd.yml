@@ -35,6 +35,10 @@ jobs:
       - name: ACR login (via az)
         run: |
           az acr login --name ${{ secrets.ACR_NAME }}
+      
+      - name: Debug: Show image name
+        run: |
+          echo "Docker Image: $IMAGE"
 
       - name: Build and push Docker image to ACR
         run: |

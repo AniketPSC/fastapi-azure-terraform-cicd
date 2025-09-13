@@ -48,10 +48,10 @@ jobs:
           az webapp config container set \
             --name ${{ secrets.WEBAPP_NAME }} \
             --resource-group ${{ secrets.RG_NAME }} \
-            --docker-custom-image-name $IMAGE \
-            --docker-registry-server-url https://${{ secrets.ACR_LOGIN_SERVER }} \
-            --docker-registry-server-user ${{ secrets.ACR_USERNAME }} \
-            --docker-registry-server-password ${{ secrets.ACR_PASSWORD }}
+            --container-image-name $IMAGE \
+            --container-registry-url https://${{ secrets.ACR_LOGIN_SERVER }} \
+            --container-registry-user ${{ secrets.ACR_USERNAME }} \
+            --container-registry-password ${{ secrets.ACR_PASSWORD }}
 
       - name: Restart the Web App
         run: |

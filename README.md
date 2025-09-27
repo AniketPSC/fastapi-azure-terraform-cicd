@@ -1,6 +1,6 @@
 # 🚀 Cloud-Native FastAPI Microservice on Azure
 
-## 📌 Project Overvie
+## 📌 Project Overview
 
 This repository contains a small **Task Manager** microservice (CRUD) built with **FastAPI** and deployed to **Microsoft Azure** using a modern DevOps toolchain.
 
